@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  nginx:
+    container_name: NginxCache
+    restart: always
+    image: nginx
+    ports:
+      - "80:80"
+    environment:
+      - DOLLAR=$
+      - UPSTREAM_DOMAIN=${UPSTREAM_DOMAIN}
+      - UPSTREAM_PORT=${UPSTREAM_PORT}
+      - UPSTREAM_HOST_HEADER=${UPSTREAM_HOST_HEADER}
+      - UPSTREAM_PROTOCOL=${UPSTREAM_PROTOCOL}
+      - MAX_CACHE_SIZE=${MAX_CACHE_SIZE}
+      - IN_RAM_SIZE=${IN_RAM_SIZE}
+      - CACHE_DURATION=${CACHE_DURATION}
+    build: .
+    volumes:
+      - ./nginx.conf.tmpl:/etc/nginx/conf.d/variables.conf.template
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/variables.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
