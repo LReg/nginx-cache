@@ -16,7 +16,6 @@ services:
       - MAX_CACHE_SIZE=${MAX_CACHE_SIZE}
       - IN_RAM_SIZE=${IN_RAM_SIZE}
       - CACHE_DURATION=${CACHE_DURATION}
-    build: .
     volumes:
       - ./nginx.conf.tmpl:/etc/nginx/conf.d/variables.conf.template
     command: /bin/bash -c "envsubst < /etc/nginx/conf.d/variables.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
